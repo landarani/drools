@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: briscoe-rules-demo
+  cloud:
+    config:
+      failFast: true

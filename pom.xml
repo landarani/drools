@@ -1,0 +1,83 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>resmed.hi</groupId>
+    <artifactId>hi-master-cloud</artifactId>
+    <version>2.1.0-SNAPSHOT</version>
+  </parent>
+  <groupId>resmed.hi.demo</groupId>
+  <artifactId>briscoe-rules</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>Briscoe Rules</name>
+  <description>POC for creating a rules engin based on drools</description>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>pl.project13.maven</groupId>
+        <artifactId>git-commit-id-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-autoconfigure</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger-ui</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.springfox</groupId>
+      <artifactId>springfox-swagger2</artifactId>
+    </dependency>
+
+    <!-- Runtime Dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-jetty</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+<!--     <dependency> -->
+<!--       <groupId>org.springframework.cloud</groupId> -->
+<!--       <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId> -->
+<!--       <scope>runtime</scope> -->
+<!--     </dependency> -->
+<!--     <dependency> -->
+<!--       <groupId>org.springframework.cloud</groupId> -->
+<!--       <artifactId>spring-cloud-starter-config</artifactId> -->
+<!--       <scope>runtime</scope> -->
+<!--     </dependency> -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+  </dependencies>
+</project>
