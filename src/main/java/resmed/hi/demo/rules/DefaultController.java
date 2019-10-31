@@ -7,7 +7,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @RequestMapping("/")
-public class RulesController {
+public class DefaultController {
 
     @GetMapping
     public RedirectView redirectToInfo() {

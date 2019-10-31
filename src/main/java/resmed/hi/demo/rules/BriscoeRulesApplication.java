@@ -2,8 +2,11 @@ package resmed.hi.demo.rules;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,6 +19,9 @@ import static springfox.documentation.builders.PathSelectors.regex;
 
 @SpringBootApplication
 @EnableSwagger2
+@EnableAsync
+@EnableDiscoveryClient
+@EnableCircuitBreaker
 public class BriscoeRulesApplication {
 
     protected BriscoeRulesApplication() {}
@@ -42,7 +48,7 @@ public class BriscoeRulesApplication {
             .build())
             .enable(true)
             .select()
-            .paths(regex("/*"))
+            .paths(regex("/summary/*"))
             .build();
         return docket;
     }

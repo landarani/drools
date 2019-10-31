@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>resmed.hi</groupId>
@@ -10,6 +11,10 @@
   <version>0.0.1-SNAPSHOT</version>
   <name>Briscoe Rules</name>
   <description>POC for creating a rules engin based on drools</description>
+
+  <properties>
+    <drools.version>7.27.0.Final</drools.version>
+  </properties>
 
   <build>
     <plugins>
@@ -30,8 +35,30 @@
       <artifactId>lombok</artifactId>
     </dependency>
     <dependency>
+      <groupId>org.drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <version>${drools.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kie</groupId>
+      <artifactId>kie-spring</artifactId>
+      <version>${drools.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+    </dependency>
+    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-config</artifactId>
     </dependency>
     <dependency>
       <groupId>io.springfox</groupId>
@@ -63,21 +90,48 @@
       <artifactId>spring-boot-starter-security</artifactId>
       <scope>runtime</scope>
     </dependency>
-<!--     <dependency> -->
-<!--       <groupId>org.springframework.cloud</groupId> -->
-<!--       <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId> -->
-<!--       <scope>runtime</scope> -->
-<!--     </dependency> -->
-<!--     <dependency> -->
-<!--       <groupId>org.springframework.cloud</groupId> -->
-<!--       <artifactId>spring-cloud-starter-config</artifactId> -->
-<!--       <scope>runtime</scope> -->
-<!--     </dependency> -->
+    <!-- <dependency> -->
+    <!-- <groupId>org.springframework.cloud</groupId> -->
+    <!-- <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId> -->
+    <!-- <scope>runtime</scope> -->
+    <!-- </dependency> -->
+    <!-- <dependency> -->
+    <!-- <groupId>org.springframework.cloud</groupId> -->
+    <!-- <artifactId>spring-cloud-starter-config</artifactId> -->
+    <!-- <scope>runtime</scope> -->
+    <!-- </dependency> -->
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-openfeign</artifactId>
       <scope>runtime</scope>
     </dependency>
 
+    <!-- Test dependencies -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+            <plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+              <configuration>
+                <arguments>
+                  <argument>--spring.config.additional-location=dev/development.properties</argument>
+                </arguments>
+              </configuration>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
 </project>
