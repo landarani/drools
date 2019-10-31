@@ -1,0 +1,14 @@
+package resmed.hi.demo.rules
+global resmed.hi.demo.rules.alerts.Exceptions exceptions
+global java.lang.Double ahiThreshold
+global java.lang.String serialNumber
+global java.lang.Boolean isEnabled
+global java.lang.String metric
+import java.util.Map
+
+rule "ahi above threshold"
+  when
+    $matched: Map(get(metric) > ahiThreshold)
+  then
+    exceptions.addExceedingAhiException("hello");
+end
