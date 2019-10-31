@@ -14,9 +14,8 @@ public class UsualValueService {
     public final static int USUAL_VALUES_DAYS = 90;
     public final static int USUAL_VALUES_MINIMUM_DAYS = 14;
 
-    public Optional<Double> calculateUsualValue(List<SummaryData> data, MetricResolver metricResolver, RuleType ruleType,
-        LocalDate sessionDate,
-        Patient patient) {
+    public Optional<Double> calculateUsualValue(List<SummaryData> data, LocalDate sessionDate, MetricResolver metricResolver,
+        RuleType ruleType, Patient patient) {
         List<Double> usualValues = data.stream()
             .filter(
                 d -> d.getSessionDate().isBefore(sessionDate)

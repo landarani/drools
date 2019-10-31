@@ -23,7 +23,7 @@ public class RuleServiceTest {
 
     @Test
     public void shouldEvaluate() {
-        RulesOutcome outcome = sut.score(getData());
+        RulesOutcome outcome = sut.score(null);
         log.info("[Outcome: {}]", outcome);
         // assertThat("Expected exception is not raised", outcome.getExceedingAhiSerialNumbers(), contains("hello"));
     }
