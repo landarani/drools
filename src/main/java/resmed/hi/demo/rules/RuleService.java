@@ -3,7 +3,6 @@ package resmed.hi.demo.rules;
 import org.kie.api.runtime.KieContainerSessionsPool;
 import org.kie.api.runtime.KieSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import resmed.hi.demo.rules.alerts.RulesOutcome;
 import resmed.hi.demo.rules.facts.SummaryData;
@@ -46,9 +45,9 @@ public class RuleService {
     @Autowired
     private UsualValueService usualValueService;
 
-    @Async
-    public RulesOutcome scorePatient(Patient patient, Optional<LocalDate> lastDate) {
-        List<RuleInput> inputs = patientService.getPatientRuleParameters(patient);
+    public RulesOutcome scorePatient(String ecn, Optional<LocalDate> lastDate) {
+        Patient patient = patientService.getPatient(ecn);
+        List<RuleInput> inputs = patientService.getPatientRuleParameters(ecn);
         int days = inputs.stream().filter(i -> i.isEnabled()).map(
             i -> i.getPeriod() + (i.getThresholdType() == ThresholdType.USUAL_VALUES ? UsualValueService.USUAL_VALUES_DAYS : 0))
             .max(Integer::compare).orElse(0);
@@ -59,7 +58,7 @@ public class RuleService {
         data.sort((d1, d2) -> d2.getSessionDate().compareTo(d1.getSessionDate()));
 
         List<RuleParameter> params = inputs.stream().filter(i -> i.isEnabled())
-            .map(i -> new RuleParameter(patient, metricResolver, buildThresholdCalculator(patient, i, data, endDate), i, endDate))
+            .map(i -> new RuleParameter(i, patient, metricResolver, buildThresholdCalculator(patient, i, data, endDate)))
             .collect(Collectors.toList());
         return score(params, data.stream().limit(maxPeriod).collect(Collectors.toList()));
     }
@@ -69,7 +68,7 @@ public class RuleService {
         RulesOutcome outcome = new RulesOutcome();
         session.setGlobal("rulesOutcome", outcome);
         params.stream().forEach(param -> session.insert(param));
-        session.insert(data);
+        data.stream().forEach(sd -> session.insert(sd));
         session.fireAllRules();
         session.dispose();
         return outcome;

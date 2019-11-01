@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import resmed.hi.demo.rules.alerts.RulesOutcome;
-import resmed.hi.demo.rules.facts.SummaryDataService;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/summary")
@@ -17,7 +18,7 @@ public class RuleController {
 
     @PostMapping
     @ApiOperation("Receives the data, evaluates rule against it and returns the current devices in exception")
-    public RulesOutcome addSummaryData(@ApiParam SummaryDataService data) {
-        return ruleService.score(null);
+    public RulesOutcome addSummaryData(@ApiParam String ecn) throws Exception {
+        return ruleService.scorePatient(ecn, Optional.empty());
     }
 }

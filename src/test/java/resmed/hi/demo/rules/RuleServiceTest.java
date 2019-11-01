@@ -9,8 +9,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import resmed.hi.demo.rules.alerts.RulesOutcome;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Optional;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
@@ -22,15 +21,11 @@ public class RuleServiceTest {
     private RuleService sut;
 
     @Test
-    public void shouldEvaluate() {
-        RulesOutcome outcome = sut.score(null);
+    public void shouldEvaluate() throws Exception {
+
+        RulesOutcome outcome = sut.scorePatient("Tes-Patient", Optional.empty());
         log.info("[Outcome: {}]", outcome);
         // assertThat("Expected exception is not raised", outcome.getExceedingAhiSerialNumbers(), contains("hello"));
     }
 
-    private Map<String, Double> getData() {
-        Map<String, Double> data = new HashMap<>();
-        data.put("Val.AHI", 16.0);
-        return data;
-    }
 }

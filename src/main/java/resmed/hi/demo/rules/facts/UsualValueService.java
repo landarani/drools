@@ -1,5 +1,6 @@
 package resmed.hi.demo.rules.facts;
 
+import org.springframework.stereotype.Service;
 import resmed.hi.demo.rules.RuleType;
 import resmed.hi.demo.rules.parameters.MetricResolver;
 import resmed.hi.demo.rules.patients.Patient;
@@ -10,6 +11,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Service
 public class UsualValueService {
     public final static int USUAL_VALUES_DAYS = 90;
     public final static int USUAL_VALUES_MINIMUM_DAYS = 14;

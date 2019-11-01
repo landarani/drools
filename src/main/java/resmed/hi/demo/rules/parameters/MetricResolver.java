@@ -20,6 +20,7 @@ public class MetricResolver {
         // default metrics
         defaultMetrics.put(RuleType.AHI, "Val.AHI");
         defaultMetrics.put(RuleType.LEAK, "Val.Leak.50");
+        defaultMetrics.put(RuleType.PRESSURE, "Val.Pressure.50");
         defaultMetrics.put(RuleType.USAGE, "Val.Duration");
         // mid metric overrides
         Map<Integer, String> leakMids = new HashMap<>();

@@ -2,6 +2,7 @@ package resmed.hi.demo.rules.parameters;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import resmed.hi.demo.rules.Operator;
 import resmed.hi.demo.rules.parameters.threshold.ThresholdCalculator;
 import resmed.hi.demo.rules.patients.Patient;
@@ -11,17 +12,16 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@ToString(onlyExplicitlyIncluded = true)
 public class RuleParameter {
+
+    @Getter
+    @ToString.Include
+    private final RuleInput input;
 
     private final Patient patient;
     private final MetricResolver metricResolver;
     private final ThresholdCalculator thresholdCalculator;
-
-    @Getter
-    private final RuleInput input;
-
-    @Getter
-    private final LocalDate lastDate;
 
     public boolean isEnabled() {
         return input.isEnabled();
