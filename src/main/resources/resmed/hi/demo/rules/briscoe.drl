@@ -77,3 +77,11 @@ rule "no data received"
   then
     rulesOutcome.raise($param, null, null);
 end
+
+rule "data received"
+  when
+    $param: RuleParameter(input.ruleType == RuleType.DATA)
+    SummaryData(sessionDate == $param.scoreDate)
+  then
+    rulesOutcome.correct($param, null, null);
+end
