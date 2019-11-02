@@ -1,0 +1,7 @@
+logging:
+  level:
+    org:
+      drools: info
+      mvel2: info
+      kie: info
+      

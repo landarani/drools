@@ -13,8 +13,8 @@ import java.util.stream.Collectors;
 
 @Service
 public class UsualValueService {
-    public final static int USUAL_VALUES_DAYS = 90;
-    public final static int USUAL_VALUES_MINIMUM_DAYS = 14;
+    public static final int USUAL_VALUES_DAYS = 90;
+    public static final int USUAL_VALUES_MINIMUM_DAYS = 14;
 
     public Optional<Double> calculateUsualValue(List<SummaryData> data, LocalDate sessionDate, MetricResolver metricResolver,
         RuleType ruleType, Patient patient) {
@@ -27,7 +27,7 @@ public class UsualValueService {
             .collect(Collectors.toList());
         int middle = (usualValues.size() + 1) / 2 - 1;
         int limit = 1 + (usualValues.size() + 1) % 2;
-        return Optional.of(usualValues.size() < USUAL_VALUES_MINIMUM_DAYS ? null
+        return Optional.ofNullable(usualValues.size() < USUAL_VALUES_MINIMUM_DAYS ? null
             : usualValues.stream().sorted().skip(middle).limit(limit).collect(Collectors.averagingDouble(Double::doubleValue)));
     }
 }

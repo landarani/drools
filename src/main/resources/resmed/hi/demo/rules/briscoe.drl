@@ -8,14 +8,72 @@ import resmed.hi.demo.rules.facts.SummaryData
 rule "metric above threshold"
   when
     $param: RuleParameter(operator == Operator.ABOVE)
-    // $threshold: $param(this.threshold())
+    $lastData: SummaryData(sessionDate == $param.scoreDate)
+    accumulate(SummaryData(
+                 sessionDate <= $param.scoreDate,
+                 sessionDate > $param.scoreDate.minusDays($param.period),
+                 this.get($param.getMetric(sessionDate)) > $param.getThreshold(sessionDate)
+                 );
+               $total: count())
+    eval($total == $param.getPeriod())
   then
-    System.out.println("Above: >>" + $param.toString());
+    rulesOutcome.raise($param, $lastData.get($param.getMetric($lastData.getSessionDate())), $param.getThreshold($lastData.getSessionDate()));
 end
 
 rule "metric below threshold"
   when
     $param: RuleParameter(operator == Operator.BELOW)
+    $lastData: SummaryData(sessionDate == $param.scoreDate)
+    accumulate(SummaryData(
+                 sessionDate <= $param.scoreDate,
+                 sessionDate > $param.scoreDate.minusDays($param.period),
+                 this.get($param.getMetric(sessionDate)) < $param.getThreshold(sessionDate)
+                 );
+               $total: count())
+    eval($total == $param.getPeriod())
   then
-    System.out.println("Below: >>" + $param.toString());
+    rulesOutcome.raise($param, $lastData.get($param.getMetric($lastData.getSessionDate())), $param.getThreshold($lastData.getSessionDate()));
+end
+
+rule "corrected above threshold"
+  when
+    $param: RuleParameter(operator == Operator.ABOVE)
+    $lastData: SummaryData(sessionDate == $param.scoreDate)
+    accumulate(SummaryData(
+                 sessionDate <= $param.scoreDate,
+                 sessionDate > $param.scoreDate.minusDays($param.period),
+                 this.get($param.getMetric(sessionDate)) <= $param.getThreshold(sessionDate)
+                 );
+               $total: count())
+    eval($total == $param.getPeriod())
+  then
+    rulesOutcome.correct($param, $lastData.get($param.getMetric($lastData.getSessionDate())), $param.getThreshold($lastData.getSessionDate()));
+end
+
+rule "corrected below threshold"
+  when
+    $param: RuleParameter(operator == Operator.BELOW)
+    $lastData: SummaryData(sessionDate == $param.scoreDate)
+    accumulate(SummaryData(
+                 sessionDate <= $param.scoreDate,
+                 sessionDate > $param.scoreDate.minusDays($param.period),
+                 this.get($param.getMetric(sessionDate)) >= $param.getThreshold(sessionDate)
+                 );
+               $total: count())
+    eval($total == $param.getPeriod())
+  then
+    rulesOutcome.correct($param, $lastData.get($param.getMetric($lastData.getSessionDate())), $param.getThreshold($lastData.getSessionDate()));
+end
+
+rule "no data received"
+  when
+    $param: RuleParameter(input.ruleType == RuleType.DATA)
+    accumulate(SummaryData(
+                 sessionDate <= $param.scoreDate,
+                 sessionDate > $param.scoreDate.minusDays($param.period)
+                 );
+               $total: count())
+    eval($total == 0)
+  then
+    rulesOutcome.raise($param, null, null);
 end

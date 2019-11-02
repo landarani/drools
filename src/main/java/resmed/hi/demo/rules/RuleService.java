@@ -58,7 +58,7 @@ public class RuleService {
         data.sort((d1, d2) -> d2.getSessionDate().compareTo(d1.getSessionDate()));
 
         List<RuleParameter> params = inputs.stream().filter(i -> i.isEnabled())
-            .map(i -> new RuleParameter(i, patient, metricResolver, buildThresholdCalculator(patient, i, data, endDate)))
+            .map(i -> new RuleParameter(i, endDate, patient, metricResolver, buildThresholdCalculator(patient, i, data, endDate)))
             .collect(Collectors.toList());
         return score(params, data.stream().limit(maxPeriod).collect(Collectors.toList()));
     }

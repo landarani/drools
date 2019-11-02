@@ -1,5 +1,8 @@
 package resmed.hi.demo.rules.parameters;
 
+import java.time.LocalDate;
+import java.util.Optional;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -8,9 +11,6 @@ import resmed.hi.demo.rules.parameters.threshold.ThresholdCalculator;
 import resmed.hi.demo.rules.patients.Patient;
 import resmed.hi.demo.rules.patients.RuleInput;
 
-import java.time.LocalDate;
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @ToString(onlyExplicitlyIncluded = true)
 public class RuleParameter {
@@ -18,6 +18,10 @@ public class RuleParameter {
     @Getter
     @ToString.Include
     private final RuleInput input;
+
+    @Getter
+    @ToString.Include
+    private final LocalDate scoreDate;
 
     private final Patient patient;
     private final MetricResolver metricResolver;
@@ -39,8 +43,8 @@ public class RuleParameter {
         return input.getOperator();
     }
 
-    public Optional<Double> getThreshold(LocalDate session) {
-        return thresholdCalculator.calculate(Optional.ofNullable(input.getThreshold()), input.getOperator(), session);
+    public Double getThreshold(LocalDate session) {
+        return thresholdCalculator.calculate(Optional.ofNullable(input.getThreshold()), input.getOperator(), session).orElse(null);
     }
 
     public String getMetric(LocalDate session) {

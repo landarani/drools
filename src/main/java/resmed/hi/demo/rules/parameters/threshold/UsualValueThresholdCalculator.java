@@ -8,23 +8,23 @@ import java.util.Map;
 import java.util.Optional;
 
 public class UsualValueThresholdCalculator implements ThresholdCalculator {
-    Map<LocalDate, Double> thresholds = new HashMap<>();
+    private final Map<LocalDate, Double> usualValues = new HashMap<>();
 
-    public UsualValueThresholdCalculator(Map<LocalDate, Double> thresholds) {
-        thresholds.putAll(thresholds);
+    public UsualValueThresholdCalculator(Map<LocalDate, Double> usualValues) {
+        this.usualValues.putAll(usualValues);
     }
 
     @Override
-    public Optional<Double> calculate(Optional<Double> value, Operator operator, LocalDate sessionDate) {
-        return value.flatMap(
-            v -> Optional.ofNullable(thresholds.get(sessionDate)).map(t -> mapAbove(t, v, operator)).map(t -> mapBelow(t, v, operator)));
+    public Optional<Double> calculate(Optional<Double> variant, Operator operator, LocalDate sessionDate) {
+        return variant.flatMap(
+            v -> Optional.ofNullable(usualValues.get(sessionDate)).map(uv -> mapAbove(uv, v, operator)).map(uv -> mapBelow(uv, v, operator)));
     }
 
-    private Double mapAbove(Double threshold, Double value, Operator operator) {
-        return operator == Operator.ABOVE ? threshold * (1 + value / 100) : value;
+    private Double mapAbove(Double usualValue, Double variant, Operator operator) {
+        return operator == Operator.ABOVE ? usualValue * (1 + variant / 100) : usualValue;
     }
 
-    private Double mapBelow(Double threshold, Double value, Operator operator) {
-        return operator == Operator.ABOVE ? threshold * (1 - value / 100) : value;
+    private Double mapBelow(Double usualValue, Double variant, Operator operator) {
+        return operator == Operator.BELOW ? usualValue * (1 - variant / 100) : usualValue;
     }
 }

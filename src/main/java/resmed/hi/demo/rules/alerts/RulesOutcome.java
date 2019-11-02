@@ -11,12 +11,12 @@ public class RulesOutcome {
     private final Map<AlertType, Score> raised = new HashMap<>();
     private final Map<AlertType, Score> corrected = new HashMap<>();
 
-    public void raise(RuleParameter parameter, Double metricValue) {
-        raised.put(getType(parameter), new Score(metricValue, parameter.getInput()));
+    public void raise(RuleParameter parameter, Double metricValue, Double threshold) {
+        raised.put(getType(parameter), new Score(metricValue, threshold, parameter.getInput()));
     }
 
-    public void correct(RuleParameter parameter, Double metricValue) {
-        corrected.put(getType(parameter), new Score(metricValue, parameter.getInput()));
+    public void correct(RuleParameter parameter, Double metricValue, Double threshold) {
+        corrected.put(getType(parameter), new Score(metricValue, threshold, parameter.getInput()));
     }
 
     private AlertType getType(RuleParameter parameter) {

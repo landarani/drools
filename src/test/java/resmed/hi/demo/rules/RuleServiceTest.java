@@ -21,11 +21,21 @@ public class RuleServiceTest {
     private RuleService sut;
 
     @Test
-    public void shouldEvaluate() throws Exception {
-
+    public void shouldEvaluateWitData() throws Exception {
         RulesOutcome outcome = sut.scorePatient("Tes-Patient", Optional.empty());
-        log.info("[Outcome: {}]", outcome);
-        // assertThat("Expected exception is not raised", outcome.getExceedingAhiSerialNumbers(), contains("hello"));
+        log.info("============== RAISED ALERTS ==============");
+        outcome.getRaised().forEach((e, s) -> log.info("[{}] ==> [{}]", e, s));
+        log.info("============== CORRECTED ALERTS ==============");
+        outcome.getCorrected().forEach((e, s) -> log.info("[{}] ==> [{}]", e, s));
+    }
+
+    @Test
+    public void shouldEvaluateNoData() throws Exception {
+        RulesOutcome outcome = sut.scorePatient("No-Data", Optional.empty());
+        log.info("============== RAISED ALERTS ==============");
+        outcome.getRaised().forEach((e, s) -> log.info("[{}] ==> [{}]", e, s));
+        log.info("============== CORRECTED ALERTS ==============");
+        outcome.getCorrected().forEach((e, s) -> log.info("[{}] ==> [{}]", e, s));
     }
 
 }
