@@ -11,6 +11,6 @@ public class DefaultController {
 
     @GetMapping
     public RedirectView redirectToInfo() {
-        return new RedirectView("/actuator/info");
+        return new RedirectView("/swagger-ui.html");
     }
 }
